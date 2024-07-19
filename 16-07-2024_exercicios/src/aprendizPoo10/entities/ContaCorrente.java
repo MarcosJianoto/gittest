@@ -4,7 +4,7 @@ public class ContaCorrente {
 
     private int numeroConta;
     private String titular;
-    private double saldo;
+    protected double saldo;
     private double limite;
 
     public ContaCorrente() {
@@ -47,6 +47,18 @@ public class ContaCorrente {
 
     public void setLimite(double limite) {
         this.limite = limite;
+    }
+
+    public void depositar(double value) {
+        this.saldo += value;
+    }
+
+    public void sacar(double value) {
+        if (value <= limite) {
+            saldo -= value;
+        } else {
+            System.out.println("Você não tem limite para esse saque, seu limite é: " + limite);
+        }
     }
 
     @Override

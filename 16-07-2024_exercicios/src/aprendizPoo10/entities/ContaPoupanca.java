@@ -17,6 +17,14 @@ public class ContaPoupanca extends ContaCorrente {
         this.taxaDeJuros = taxaDeJuros;
     }
 
+    public double calcularJuros() {
+        return saldo * taxaDeJuros;
+    }
+
+    public void aplicarJuros() {
+        saldo += saldo * taxaDeJuros;
+    }
+
     @Override
     public String toString() {
         return "{" +
