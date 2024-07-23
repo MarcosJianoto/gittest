@@ -1,16 +1,20 @@
 package ListaDeTarefas;
 
+import java.util.ArrayList;
+
 public class Usuario {
 
     private String email;
     private String senha;
+    private ArrayList<Tarefa> tarefas;
 
     public Usuario() {
     }
 
-    public Usuario(String email, String senha) {
+    public Usuario(String email, String senha, ArrayList<Tarefa> tarefas) {
         this.email = email;
         this.senha = senha;
+        this.tarefas = tarefas;
     }
 
     public String getEmail() {
@@ -27,6 +31,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public ArrayList<Tarefa> getTarefas() {
+        return this.tarefas;
+    }
+
+    public void setTarefas(ArrayList<Tarefa> tarefas) {
+        this.tarefas = tarefas;
     }
 
     @Override

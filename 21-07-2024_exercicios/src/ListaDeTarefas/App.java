@@ -31,8 +31,10 @@ public class App {
                     String email = sc.nextLine();
                     System.out.print("Digite a senha: ");
                     String senha = sc.nextLine();
+                    ArrayList<Tarefa> tarefas = new ArrayList<>();
 
-                    Usuario u = new Usuario(email, senha);
+                    Usuario u = new Usuario(email, senha, tarefas);
+
                     usuarios.add(u);
                     System.out.println("-----> Usuário cadastrado com sucesso");
 
@@ -102,19 +104,102 @@ public class App {
 
             switch (opcao) {
                 case "1": {
+                    System.out.println("==== TAREFAS ====");
+                    ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+
+                    if (lista.isEmpty()) {
+                        System.out.println("[Lista de tarefas vazia!]");
+                    }
+                    for (int i = 0; i < lista.size(); i++) {
+
+                        Tarefa t = lista.get(i);
+                        System.out.println("Tarefa " + i);
+                        System.out.println("\tTitulo: " + t.getTitulo());
+                        System.out.println("\tFinalizada: " + t.isFinalizada());
+
+                    }
 
                     break;
                 }
                 case "2": {
+                    System.out.println("TAREFAS FINALIZADAS! ");
+
+                    ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+                    ArrayList<Tarefa> finalizadas = new ArrayList<>();
+
+                    for (Tarefa t : lista) {
+                        if (t.isFinalizada()) {
+                            finalizadas.add(t);
+                        }
+                    }
+
+                    if (finalizadas.isEmpty()) {
+                        System.out.println("[Não há tarefas finalizadas para mostrar]");
+                    }
+
+                    for (int i = 0; i < finalizadas.size(); i++) {
+                        Tarefa t = finalizadas.get(i);
+                        System.out.println("Tarefa: " + i);
+                        System.out.println("\tTitulo: " + t.getTitulo());
+                        System.out.println("\tFinalizada: " + t.isFinalizada());
+                    }
+
                     break;
                 }
                 case "3": {
+                    System.out.println("==== TAREFAS NÃO FINALIZADAS ====");
+                    ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+                    ArrayList<Tarefa> naoFinalizadas = new ArrayList<>();
+
+                    for (Tarefa t : lista) {
+                        if (!t.isFinalizada()) {
+                            naoFinalizadas.add(t);
+                        }
+                    }
+
+                    if (naoFinalizadas.isEmpty()) {
+                        System.out.println("[Não há tarefas em aberto!]");
+                    }
+
+                    for (int i = 0; i < naoFinalizadas.size(); i++) {
+                        Tarefa t = naoFinalizadas.get(i);
+
+                        System.out.println("Tarefa: " + i);
+                        System.out.println("\tTitulo: " + t.getTitulo());
+                        System.out.println("\tFinalizada: " + t.isFinalizada());
+                    }
+
                     break;
                 }
                 case "4": {
+
+                    System.out.println("==== NOVA TAREFA ====");
+                    System.out.println("Digite o titulo: ");
+                    String titulo = sc.nextLine();
+
+                    Tarefa t = new Tarefa(titulo, false);
+
+                    usuarioLogado.getTarefas().add(t);
+                    System.out.println("----> Tarefa adicionada com sucesso! ");
+
                     break;
                 }
                 case "5": {
+                    System.out.println("==== FINALIZAR TAREFA ====");
+                    ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+
+                    for (int i = 0; i < lista.size(); i++) {
+                        Tarefa t = lista.get(i);
+                        System.out.println("[" + i + "]" + t.getTitulo());
+                    }
+
+                    System.out.print("Digite a tarefa que deseja finalizar: ");
+                    int posicao = sc.nextInt();
+                    sc.nextLine(); // limpar buffer
+
+                    Tarefa tarefaFinalizada = lista.get(posicao);
+                    tarefaFinalizada.setFinalizada(true);
+
                     break;
                 }
                 case "6": {
