@@ -174,7 +174,7 @@ public class App {
                 case "4": {
 
                     System.out.println("==== NOVA TAREFA ====");
-                    System.out.println("Digite o titulo: ");
+                    System.out.print("Digite o titulo: ");
                     String titulo = sc.nextLine();
 
                     Tarefa t = new Tarefa(titulo, false);
@@ -187,22 +187,47 @@ public class App {
                 case "5": {
                     System.out.println("==== FINALIZAR TAREFA ====");
                     ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+                    int temTarefas = 0;
 
                     for (int i = 0; i < lista.size(); i++) {
                         Tarefa t = lista.get(i);
-                        System.out.println("[" + i + "]" + t.getTitulo());
+                        if (!t.isFinalizada()) {
+                            temTarefas++;
+                            System.out.println("[" + i + "]" + t.getTitulo());
+                        }
                     }
 
-                    System.out.print("Digite a tarefa que deseja finalizar: ");
-                    int posicao = sc.nextInt();
-                    sc.nextLine(); // limpar buffer
+                    if (temTarefas == 0) {
+                        System.out.println("[Nenhuma tarefa encontrada]");
+                    } else {
+                        System.out.print("Digite a tarefa que deseja finalizar: ");
+                        int posicao = sc.nextInt();
+                        sc.nextLine(); // limpar buffer
 
-                    Tarefa tarefaFinalizada = lista.get(posicao);
-                    tarefaFinalizada.setFinalizada(true);
+                        Tarefa tarefaFinalizada = lista.get(posicao);
+                        tarefaFinalizada.setFinalizada(true);
+
+                        System.out.println("Tarefa " + posicao + " finalizada com sucesso! ");
+                    }
 
                     break;
                 }
                 case "6": {
+                    System.out.println("==== REMOVER TAREFA ====");
+                    ArrayList<Tarefa> lista = usuarioLogado.getTarefas();
+                    if (lista.isEmpty()) {
+                        System.out.println("[Sem tarefas para ser removidas!]");
+                    } else {
+                        for (int i = 0; i < lista.size(); i++) {
+                            System.out.println("[" + i + "]" + lista.get(i).getTitulo());
+                        }
+                        System.out.println("Digite qual tarefa gostaria de remover: ");
+                        int posicao = sc.nextInt();
+                        sc.nextLine(); // limpar buffer
+                        lista.remove(posicao);
+                        System.out.println("-----> Tarefa " + posicao + " removida");
+                    }
+
                     break;
                 }
                 case "7": {
