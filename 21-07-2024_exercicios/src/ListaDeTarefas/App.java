@@ -224,6 +224,7 @@ public class App {
                         System.out.println("Digite qual tarefa gostaria de remover: ");
                         int posicao = sc.nextInt();
                         sc.nextLine(); // limpar buffer
+
                         lista.remove(posicao);
                         System.out.println("-----> Tarefa " + posicao + " removida");
                     }
