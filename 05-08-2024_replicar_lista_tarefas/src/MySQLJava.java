@@ -4,31 +4,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.mysql.cj.jdbc.Driver;
 
 public class MySQLJava {
 
-    public static String URL = "jdbc:mysql://localhost:3306";
-    public static String USER = "root";
-    public static String password = "";
+    public static final Scanner sc = new Scanner(System.in);
     public static Connection c = null;
     public static PreparedStatement stmt = null;
     public static ResultSet rs = null;
-    public static Scanner sc = new Scanner(System.in);
+
+    public static final String URL = "jdbc:mysql://localhost:3306";
+    public static final String USER = "root";
+    public static final String password = "";
+
+    private static final String INSERT_SQL = "INSERT INTO lista_tarefas.usuario (email, senha) VALUES (?, ?)";
+    private static final String SELECT_SQL = "SELECT * FROM lista_tarefas.usuario";
+    private static final String UPDATE_SQL = "UPDATE * FROM lista_tarefas.usuario SET email = ?, senha = ? WHERE id = ? ";
+    private static final String DELETE_SQL = "DELETE FROM lista_tarefas.usuario WHERE id = ?";
 
     public static void main(String[] args) {
 
-        readUsers();
     }
 
-    public static void createUsers() {
+    public static boolean createUsers(Usuario u) {
 
-        System.out.println("Digite seu e-mail: ");
-        String email = sc.nextLine();
-        System.out.println("Digite sua senha: ");
-        String senha = sc.nextLine();
+        boolean successo = false;
 
         try {
 
@@ -37,16 +40,14 @@ public class MySQLJava {
 
             c = DriverManager.getConnection(URL, USER, password);
 
-            stmt = c.prepareStatement("INSERT INTO lista_tarefas.usuario (email, senha) VALUES (?, ?)");
-            stmt.setString(1, email);
-            stmt.setString(2, senha);
+            stmt = c.prepareStatement(INSERT_SQL);
+            stmt.setString(1, u.getEmail());
+            stmt.setString(2, u.getSenha());
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Usuário inserido com sucesso!");
-            } else {
-                System.out.println("Erro ao cadastrar");
+                successo = true;
             }
 
         } catch (Exception e) {
@@ -67,10 +68,13 @@ public class MySQLJava {
             }
 
         }
+        return successo;
 
     }
 
-    public static void readUsers() {
+    public static ArrayList<Usuario> readUsers() {
+
+        ArrayList<Usuario> usuarios = new ArrayList<>();
 
         try {
             Driver driver = new Driver();
@@ -78,7 +82,7 @@ public class MySQLJava {
 
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
 
-            stmt = c.prepareStatement("SELECT * FROM lista_tarefas.usuario");
+            stmt = c.prepareStatement(SELECT_SQL);
 
             rs = stmt.executeQuery();
 
@@ -88,10 +92,8 @@ public class MySQLJava {
                 String email = rs.getString("email");
                 String senha = rs.getString("senha");
 
-                System.out.println("id = " + id);
-                System.out.println("email = " + email);
-                System.out.println("senha = " + senha);
-                System.out.println();
+                Usuario u = new Usuario(id, email, senha);
+                usuarios.add(u);
 
             }
 
@@ -113,21 +115,13 @@ public class MySQLJava {
             }
 
         }
+        return usuarios;
 
     }
 
-    public static void updateUsers() {
+    public static boolean updateUsers(Usuario u) {
 
-        readUsers();
-
-        System.out.print("Digite o id do usuário que gostaria atualizar: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        System.out.println("Digite o novo e-mail: ");
-        String email = sc.nextLine();
-        System.out.println("Digite a nova senha: ");
-        String senha = sc.nextLine();
+        boolean sucesso = false;
 
         try {
 
@@ -136,17 +130,15 @@ public class MySQLJava {
 
             c = DriverManager.getConnection(URL, USER, password);
 
-            stmt = c.prepareStatement("UPDATE * FROM lista_tarefas.usuario SET email = ?, senha = ? WHERE id = ? ");
-            stmt.setString(1, email);
-            stmt.setString(2, senha);
-            stmt.setInt(3, id);
+            stmt = c.prepareStatement(UPDATE_SQL);
+            stmt.setString(1, u.getEmail());
+            stmt.setString(2, u.getSenha());
+            stmt.setInt(3, u.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Dados foram atualizados com sucesso! ");
-            } else {
-                System.out.println("ERRO: Dados não foram atualizados");
+                sucesso = true;
             }
 
         } catch (SQLException e) {
@@ -169,16 +161,13 @@ public class MySQLJava {
             }
 
         }
+        return sucesso;
 
     }
 
-    public static void deleteUsers() {
+    public static boolean deleteUsers(Usuario u) {
 
-        readUsers();
-
-        System.out.println("Digite o ID do usuário que gostaria de deletar: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+        boolean sucesso = false;
 
         try {
 
@@ -188,16 +177,14 @@ public class MySQLJava {
             c = DriverManager.getConnection(URL, USER, password);
 
             stmt = c
-                    .prepareStatement("DELETE FROM lista_tarefas.usuario WHERE id = ?");
+                    .prepareStatement(DELETE_SQL);
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, u.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Usuário deletado");
-            } else {
-                System.out.println("Usuário não deletado");
+                sucesso = true;
             }
 
         } catch (Exception e) {
@@ -221,6 +208,7 @@ public class MySQLJava {
             }
 
         }
+        return sucesso;
 
     }
 
