@@ -24,7 +24,7 @@ public class App {
             System.out.println("[3] SAIR");
             String opcao = sc.nextLine();
 
-            switch (opcao) {
+            switch (opcao) { 
                 case "1": {
                     try {
 
