@@ -1,5 +1,12 @@
+package listadetarefas;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import dao.TarefaDAO;
+import dao.UsuarioDAO;
+import model.Tarefa;
+import model.Usuario;
 
 public class ListaTarefas {
 
@@ -30,9 +37,14 @@ public class ListaTarefas {
                     ArrayList<Tarefa> tarefas = new ArrayList<>();
 
                     Usuario u = new Usuario(email, senha, tarefas);
-                    usuarios.add(u);
 
-                    System.out.println("----> Cadastro feito com sucesso");
+                    boolean success = UsuarioDAO.createUsers(u);
+
+                    if (success = true) {
+                        System.out.println("---> Usuario cadastrado com sucesso!");
+                    } else {
+                        System.out.println("---> ERRO: Usuario não cadastrado");
+                    }
 
                     break;
                 }
@@ -44,24 +56,18 @@ public class ListaTarefas {
                     System.out.print("Digite a senha: ");
                     String senha = sc.nextLine();
 
+                    Usuario u = UsuarioDAO.buscarUsuarioPorEmail(email);
+
                     Boolean loginSuccess = false;
 
-                    for (int i = 0; i < usuarios.size(); i++) {
-
-                        String uEmail = usuarios.get(i).getEmail();
-                        String uSenha = usuarios.get(i).getSenha();
-
-                        if (email.equals(uEmail) & senha.equals(uSenha)) {
-                            System.out.println("---> Login feito com sucesso! ");
-                            loginSuccess = true;
-                            usuarioLogado = usuarios.get(i);
-                            break;
-                        }
+                    if (u != null && u.getSenha().equals(senha)) {
+                        loginSuccess = true;
                     }
 
                     if (!loginSuccess) {
                         System.out.println("---> Email/Senha incorretos! ");
                     } else {
+                        usuarioLogado = u;
                         listaTarefas();
                     }
 
@@ -330,7 +336,7 @@ public class ListaTarefas {
                 }
                 case "8": {
                     System.out.println("=== TODAS AS TAREFAS ===");
-                    ArrayList<Tarefa> list = usuarioLogado.getTarefas();
+                    ArrayList<Tarefa> list = TarefaDAO.buscarTarefasDoUsuario(usuarioLogado);
 
                     if (list.isEmpty()) {
                         System.out.println("----> Lista de tarefas está vazia");

@@ -1,7 +1,10 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Usuario {
 
+    private int id;
     private String email;
     private String senha;
     private ArrayList<Tarefa> tarefas;
@@ -9,10 +12,32 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(int id, String email, String senha) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+    }
+
     public Usuario(String email, String senha, ArrayList<Tarefa> tarefas) {
+
         this.email = email;
         this.senha = senha;
         this.tarefas = tarefas;
+    }
+
+    public Usuario(int id, String email, String senha, ArrayList<Tarefa> tarefas) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.tarefas = tarefas;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
