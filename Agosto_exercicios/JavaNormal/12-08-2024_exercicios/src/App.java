@@ -65,38 +65,37 @@ public class App {
 
                             switch (opcaoAtualizarProduto) {
                                 case "1": {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        System.out.println("\t[" + i + "] " + list.get(i).getName());
-                                    }
+                                    buscarUsuarios();
 
                                     System.out.println();
                                     System.out.print("Qual produto gostaria de alterar?");
                                     int qualProdutoAlterar = sc.nextInt();
                                     sc.nextLine();
 
-                                    al
+                                    alterarProduto(qualProdutoAlterar);
 
                                     break;
                                 }
                                 case "2": {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        System.out.println("\t[" + i + "] " + list.get(i).getName());
-                                    }
+                                    buscarUsuarios();
 
                                     System.out.println();
                                     System.out.print("Qual produto gostaria de alterar?");
                                     int qualProdutoAlterar = sc.nextInt();
                                     sc.nextLine();
 
-                                    for (int i = 0; i < list.size(); i++) {
-                                        if (qualProdutoAlterar == i) {
-                                            System.out.print("Digite o novo Nome: ");
-                                            String name = sc.nextLine();
-                                            list.get(i).setName(name);
-                                            System.out.println("----> Nome do produto alterado");
-                                        }
+                                    alterarProduto(qualProdutoAlterar);
 
-                                    }
+                                }
+                                case "3": {
+                                    buscarUsuarios();
+
+                                    System.out.println();
+                                    System.out.print("Qual produto gostaria de alterar?");
+                                    int qualProdutoAlterar = sc.nextInt();
+                                    sc.nextLine();
+
+                                    alterarProduto(qualProdutoAlterar);
 
                                 }
 
@@ -153,6 +152,17 @@ public class App {
             e.printStackTrace();
         }
 
+    }
+
+    public static void buscarUsuarios() {
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("\t" + list.get(i).getName());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
