@@ -51,14 +51,4 @@ public class Produtos {
         this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
-                ", price='" + getPrice() + "'" +
-                ", quantity='" + getQuantity();
-
-    }
-
 }

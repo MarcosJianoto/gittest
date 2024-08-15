@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 import entities.Produtos;
@@ -9,6 +10,7 @@ public class App {
     public static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+        Locale.setDefault(Locale.US);
 
         produtos();
     }
@@ -31,15 +33,15 @@ public class App {
                     case "1": {
                         System.out.println("===== ADICIONAR PRODUTO =====");
                         System.out.print("Código do produto: ");
-                        Long id = sc.nextLong();
-                        sc.nextLine();
+                        Long id = 10L;// sc.nextLong();
+                        // sc.nextLine();
                         System.out.print("Nome do produto: ");
-                        String name = sc.nextLine();
+                        String name = "Marcos";// sc.nextLine();
                         System.out.print("Preço do produto: ");
-                        Double price = sc.nextDouble();
+                        Double price = 50.00;// sc.nextDouble();
                         System.out.print("Quantidade do produto: ");
-                        Integer quantity = sc.nextInt();
-                        sc.nextLine();
+                        Integer quantity = 10;// sc.nextInt();
+                        // sc.nextLine();
 
                         Produtos produtos = new Produtos(id, name, price, quantity);
                         list.add(produtos);
@@ -65,7 +67,7 @@ public class App {
 
                             switch (opcaoAtualizarProduto) {
                                 case "1": {
-                                    buscarUsuarios();
+                                    buscarProdutos();
 
                                     System.out.println();
                                     System.out.print("Qual produto gostaria de alterar?");
@@ -77,7 +79,7 @@ public class App {
                                     break;
                                 }
                                 case "2": {
-                                    buscarUsuarios();
+                                    buscarProdutos();
 
                                     System.out.println();
                                     System.out.print("Qual produto gostaria de alterar?");
@@ -88,7 +90,7 @@ public class App {
 
                                 }
                                 case "3": {
-                                    buscarUsuarios();
+                                    buscarProdutos();
 
                                     System.out.println();
                                     System.out.print("Qual produto gostaria de alterar?");
@@ -114,9 +116,35 @@ public class App {
                             System.out.println("---> Lista está vazia");
                             System.out.println();
                         } else {
-                            for (Produtos produto : list) {
-                                System.out.println(produto);
+                            buscarProdutos();
+                        }
+
+                        break;
+                    }
+                    case "4": {
+                        System.out.println("==== REMOVER PRODUTO ====");
+
+                        if (list.isEmpty()) {
+                            System.out.println("---> Lista está vazia");
+                            System.out.println();
+                        } else {
+                            System.out.println("Produtos disponívels: ");
+                            buscarProdutos();
+
+                            System.out.println("Qual produto gostaria de remover? ");
+                            int produtoRemover = sc.nextInt();
+                            sc.nextLine();
+                            for (int i = 0; i < list.size(); i++) {
+                                int temp = list.size();
+                                if (produtoRemover == i) {
+                                    list.remove(i);
+                                    System.out.println("---> Produto removido com sucesso");
+                                } else if (produtoRemover > temp || produtoRemover < 0) {
+                                    System.out.println("numero inválido, digite outro");
+                                }
+
                             }
+
                         }
 
                         break;
@@ -154,10 +182,10 @@ public class App {
 
     }
 
-    public static void buscarUsuarios() {
+    public static void buscarProdutos() {
         try {
             for (int i = 0; i < list.size(); i++) {
-                System.out.println("\t" + list.get(i).getName());
+                System.out.println("\t" + "[" + i + "]" + list.get(i).getName());
             }
 
         } catch (Exception e) {
